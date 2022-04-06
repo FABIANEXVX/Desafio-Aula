@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+
+<script>
+
+	let aUsuarios = [];
+	let indiceSelecionado = -1;
+	let modoEdicao= false;
+
+	function exibir(indice) {
+		document.getElementById("idEditar").style.display = "block";
+		indiceSelecionado=indice;
+
+		document.getElementById("idNome").innerHTML = aUsuarios[indice].nome;
+		document.getElementById("idE-mail").innerHTML = aUsuarios[indice].email;
+		document.getElementById("idEndereço").innerHTML = aUsuarios[indice].endereço;
+		document.getElementById("idWhatsapp").innerHTML = aUsuarios[indice].whatsapp;
+		modoEdicao=false;
+		document.getElementById("idEditar").innerHTML= "Editar";
+
+
+		//alert(indice);
+	}
+	function apagar() {
+		document.getElementById("idNome").innerHTML = "";
+		document.getElementById("idE-mail").innerHTML = "";
+		document.getElementById("idEndereço").innerHTML = "";
+		document.getElementById("idWhatsapp").innerHTML ="";
+		indiceSelecionado = -1;
+		document.getElementById("idEditar").style.display = "none";
+
+	}
+	function remover (indice) {
+		aUsuarios.splice(indice,1);
+		if(indice==indiceSelecionado) {
+			apagar();
+	/*		indiceSelecionado --;
+			if(indiceSelecionado < 0) indiceSelecionado = 0;
+			exibir(indiceSelecionado)*/
+		}
+		redesenha();
+		
+
+	}
+
+	function redesenha() {
+		lista = "";
+		for(let i = 0;i < aUsuarios.length; i++) {
+			lista += "<button onclick ='remover("+ i +")' >-</button><span onclick='exibir("+ i +")'>" + aUsuarios[i].nome + "</span><BR>";
+		}
+		document.getElementById("lista").innerHTML = lista;
+	}
+	function criarCadastro() {
+		let nome = document.getElementById("nome").value;
+		let email = document.getElementById("email").value;
+		let endereço = document.getElementById("endereço").value;
+		let whatsapp = document.getElementById("whatsapp").value;
+
+		let u = {nome:nome, email:email, endereço:endereço, whatsapp:whatsapp};
+
+		
+
+
+		aUsuarios.push(u);
+		redesenha();
+
+
+
+
+		
+
+	}
+
+	function editar() {
+		if(!modoEdicao) {
+
+		
+
+		document.getElementById("idNome").innerHTML ="<input id= 'inputNome' value= '"+ aUsuarios[indiceSelecionado].nome + "'>";
+		document.getElementById("idE-mail").innerHTML ="<input id='inputEmail' value= '"+ aUsuarios[indiceSelecionado].email + "'>" ;
+		document.getElementById("idEndereço").innerHTML ="<input id='inputEndereço' value= '"+ aUsuarios[indiceSelecionado].endereço + "'>";
+		document.getElementById("idWhatsapp").innerHTML ="<input id='inputWhatsapp' value= '"+ aUsuarios[indiceSelecionado].whatsapp + "'>";
+		document.getElementById("idEditar").innerHTML= "Confirmar Edição";
+
+		modoEdicao= true;
+
+
+    }else{
+    	aUsuarios[indiceSelecionado]. nome = document.getElementById("inputNome").value;
+		aUsuarios[indiceSelecionado]. email = document.getElementById("inputEmail").value;
+		aUsuarios[indiceSelecionado]. endereço = document.getElementById("inputEndereço").value;
+		aUsuarios[indiceSelecionado]. whatsapp = document.getElementById("inputWhatsapp").value;
+		document.getElementById("idEditar").innerHTML= "Editar";
+		exibir(indiceSelecionado);
+		redesenha();
+
+    }
+     
+		
+	}
+</script>
+
+
+
+
+<body>
+	<body bgcolor="#778899"> 
+	<div style = "width:50%;float:left ">
+		<br> <input id="nome"Placeholder="Digite seu Nome">
+		<br><br> <input id="email" Placeholder= "Digite seu E-mail">
+		<br><br> <input id= "endereço"Placeholder="Digite seu Endereço">
+		<br><br> <input id="whatsapp"Placeholder="Digite seu WhatsApp" > 
+
+
+		<br><br>
+		<button onclick="criarCadastro()">Criar Cadastro</button>
+		<br><br>
+	Usuários:</b>
+	<br>
+	<p id="lista"></p>
+	</div>
+
+
+
+
+
+
+	<div  style = "width:50%;float:right">
+		<br>Cadastro</b>
+
+		<br><br>Nome: <span id="idNome"></span>
+		<br><br>E-mail: <span id="idE-mail"></span>
+		<br><br>Endereço: <span id="idEndereço"></span>
+		<br><br>Whatsapp: <span id="idWhatsapp"></span>
+		<br><br><button style = "display: none"  id="idEditar"onclick="editar ()">Editar</button>
+		
+	</div>
+</body>
+	 
+
+</html>	
